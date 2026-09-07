@@ -35,9 +35,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BookNotFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleNotFound(BookNotFoundException ex) {
-        return notFoundBody(ex.getMessage());
-    }
+public ResponseEntity<String> handleBookNotFound(BookNotFoundException ex) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+}
 
     @ExceptionHandler(AuthorNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleNotFound(AuthorNotFoundException ex) {

@@ -18,25 +18,23 @@ public class BookController {
     public BookController(BookService bookService) {
         this.bookService = bookService;
     }
+    
 
-    // POST /api/books
-    // @Valid triggers bean validation against the constraints in Book.java.
-    // Failure -> MethodArgumentNotValidException -> GlobalExceptionHandler -> 400.
+    // POST /api/books -> Add a new book
     @PostMapping
     public ResponseEntity<Book> addBook(@Valid @RequestBody Book book) {
         Book saved = bookService.addBook(book);
         return new ResponseEntity<>(saved, HttpStatus.CREATED); // 201
     }
 
-    // GET /api/books?query=tolkien  -> search by title or author (partial, case-insensitive)
-    // GET /api/books                -> no query param = view the whole catalog
+    // GET /api/books?query=tolkien -> Search catalog or view all books
     @GetMapping
     public ResponseEntity<List<Book>> searchBooks(
             @RequestParam(required = false) String query) {
         return ResponseEntity.ok(bookService.searchBooks(query));
     }
 
-    // GET /api/books/{id} -> view a single book
+    // GET /api/books/{id} -> View a single book by ID
     @GetMapping("/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable Long id) {
         return ResponseEntity.ok(bookService.getBookById(id));
